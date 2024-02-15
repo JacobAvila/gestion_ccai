@@ -59,6 +59,13 @@ class DAOProyecto {
         $db = new Database();
         return $db->seleccionar($q);
     }
+    public function listadoPorInvestigadorEstatus($id_investigador, $estatus){
+        $q = "SELECT proyecto.* FROM proyecto, investigador "
+                . "WHERE proyecto.coordinador_id_investigador=investigador.id_investigador and proyecto.coordinador_correo = investigador.correo "
+                . "and proyecto.coordinador_id_investigador=$id_investigador and proyecto.estatus='$estatus'";
+        $db = new Database();
+        return $db->seleccionar($q);
+    }
     public function listadoComoColaborador($id_investigador){
         $q = "SELECT proyecto.* FROM proyecto, investigador, colaborador "
                 . "WHERE proyecto.coordinador_id_investigador=investigador.id_investigador "
