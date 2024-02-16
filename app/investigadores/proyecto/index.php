@@ -50,7 +50,7 @@ $listado = $dao->listadoPorInvestigadorEstatus($user->id_investigador, "Activo")
                                             <td><?php echo $proy->titulo_esp; ?></td>
                                             <td><?php echo date_format(new DateTime($proy->fecha_inicio), "d/m/Y"); ?></td>
                                             <td></td>
-                                            <td><i class="fa fa-file-text-o"></i></td>
+                                            <td><i class="fa fa-file-text-o"></i> Detalles</td>
                                         </tr>
                                     <?php } ?>
                                 </tbody>
