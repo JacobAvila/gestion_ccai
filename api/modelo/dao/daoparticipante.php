@@ -50,7 +50,6 @@ class DAOParticipante {
         $r = $db->seleccionar($q);
         return $r[0];
     }
-
     public function eliminar($id_proyecto, $id_estudiante, $correo){
         $q = "DELETE FROM Participante WHERE proyecto_id_proyecto=$id_proyecto and id_estudiante=$id_estudiante and correo_estudiante='$correo'";
         $db = new Database();

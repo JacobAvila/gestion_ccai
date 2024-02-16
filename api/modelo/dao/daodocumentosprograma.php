@@ -7,15 +7,14 @@
 class DAODocumentosPrograma{
 
     public function nuevo($id_estudiante, $correo, $programa, $id_documento, $semestre, $fecha, $nombre, $documento, $archivo){
-        $q = "INSERT INTO documentacion_programa (id_estudiante, correo_estudiante, programa_tipo, id_documento, semestre, fecha, nombre, documento, archivo) "
+        $q = "INSERT INTO documentacion_programa (id_estudiante, correo, programa_tipo, id_documento, semestre, fecha, nombre, documento, archivo) "
                 . "VALUES($id_estudiante, '$correo', '$programa', $id_documento, '$semestre', '$fecha', '$nombre', '$documento', '$archivo')";
         $db = new Database();
-        
         return $db->insertar_id($q);
     }
     public function actualizar($id_estudiante, $correo, $programa, $id_documento, $semestre, $fecha, $nombre, $documento, $archivo){
         $q = "UPDATE documentacion_programa SET documento='$documento', archivo='$archivo', fecha='$fecha' "
-                . "WHERE id_esdudiante=$id_estudiante and correo_estudiante='$correo', programa_tipo='$programa', id_documento=$id_documento, semestre='$semestre', "
+                . "WHERE id_esdudiante=$id_estudiante and correo='$correo', programa_tipo='$programa', id_documento=$id_documento, semestre='$semestre', "
                 ."nombre='$nombre'";
         $db = new Database();
         return $db->actualizar($q);
@@ -35,12 +34,6 @@ class DAODocumentosPrograma{
         ."and nombre='$nombre' and id_documento=$id_documento";
         $db = new Database();
         return $db->actualizar($q);
-    }
-    public function nextId(){
-        $q = "SELECT count(id_documento) as cant FROM documentacion_programa";
-        $db = new Database();
-        $res = $db->seleccionar($q)[0];
-        return $res->cant + 1;
     }
 
 }

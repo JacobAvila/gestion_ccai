@@ -1,6 +1,6 @@
 <?php
     $home = "../";
-    include($home."api/lib.php");
+    include($home."api/api.php");
     $divisiones = ['Sistemas Computacionales', 'Informática', 'Mecánica, Mecatrónica, Industrial', 'Electrónica', 'Química, Bioquímica', 'Gestión Empresarial', 'Contaduria'];
 ?>
 <!DOCTYPE html>

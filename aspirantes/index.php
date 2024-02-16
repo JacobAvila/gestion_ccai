@@ -1,6 +1,6 @@
 <?php
     $home = "../";
-    include($home."api/lib.php");
+    include($home."api/api.php");
     $dao = new DAOAspirante();
     $division = (isset($_POST['division']))?$_POST['division']:"";
     $programa = (isset($_POST['programa']))?$_POST['programa']:"";

@@ -1,6 +1,6 @@
 <?php
 $home = "../";
-include($home."api/lib.php");
+include($home."api/api.php");
 $daoE = new DAOEstudiante();
 $daoU = new DAOUsuario();
 
