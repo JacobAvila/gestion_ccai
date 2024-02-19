@@ -65,7 +65,7 @@
 
 <div class='nav animated bounceInDown bg-dark h-100 d-inline-block' >
 	<ul>
-		<li><a href="<?php echo $home.'app/estudiantes'; ?>">Inicio</a></li>
+		<li><a href="<?php echo $home.'app/investigadores'; ?>"><i class="fa fa-home left"></i> Inicio</a></li>
 		<li><a href="<?php echo $home.'app/investigadores/catalogos'; ?>">Catálogos</a></li>
 		<li class='sub-menu'><a href='#'>Proyecto<div class='fa fa-caret-down right'></div></a>
 			<ul>

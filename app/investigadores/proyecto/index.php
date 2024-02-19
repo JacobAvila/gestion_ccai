@@ -17,8 +17,9 @@ $listado = $dao->listadoPorInvestigadorEstatus($user->id_investigador, "Activo")
     <script src="../../../js/jquery.js"></script>
     <script src="../../../js/bootstrap.bundle.js"></script>
     <script src="../../../js/axios.js"></script>
+    <script src="../js/proyectos.js"></script>
     
-    <title>Sistema Estudiantes</title>
+    <title>Sistema CCAI</title>
 </head>
 <body>
     <?php include("../topbar.php"); ?>
@@ -45,12 +46,12 @@ $listado = $dao->listadoPorInvestigadorEstatus($user->id_investigador, "Activo")
                                 </thead>
                                 <tbody>
                                     <?php foreach($listado as $proy){ ?>
-                                        <tr style="cursor: pointer;" onclick="detalles.php?id=<?php echo $proy->id_proyecto; ?>">
+                                        <tr style="cursor: pointer;" onclick="detalles('<?php echo $proy->id_proyecto; ?>')">
                                             <td><?php echo $proy->id_proyecto; ?></td>
                                             <td><?php echo $proy->titulo_esp; ?></td>
                                             <td><?php echo date_format(new DateTime($proy->fecha_inicio), "d/m/Y"); ?></td>
                                             <td></td>
-                                            <td><i class="fa fa-file-text-o"></i> Detalles</td>
+                                            <td><i class="fa fa-file-text-o" onclick="detalles('<?php echo $proy->id_proyecto; ?>')"></i></td>
                                         </tr>
                                     <?php } ?>
                                 </tbody>
