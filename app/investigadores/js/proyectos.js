@@ -4,6 +4,7 @@ function detalles(id){
 
 async function guardarActividad(id){
     let actividad = document.getElementById("actividad");
+    let fecha_inicio = document.getElementById("fecha_inicio");
     let fecha_fin = document.getElementById("fecha_fin");
     let asignado = document.getElementById("asignado");
 
@@ -11,7 +12,9 @@ async function guardarActividad(id){
     let url = "guardarActividad.php";
     let formData = new FormData();
 
+    formData.append("id_proyecto", id);
     formData.append("actividad", actividad.value);
+    formData.append("fecha_inicio", fecha_inicio.value);
     formData.append("fecha_fin", fecha_fin.value);
     formData.append("asignado", asignado.value);
 

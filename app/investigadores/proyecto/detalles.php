@@ -134,6 +134,10 @@ $res = $daoP->listadoPorProyectoPrograma($id_proyecto, "Residencias");
                         <textarea class="form-control" name="actividad" id="actividad" rows="3"></textarea>
                     </div>
                     <div class="form-group">
+                        <label class="form-label">Fecha de Inicio</label>
+                        <input type="date" class="form-control" name="fecha_inicio" id="fecha_inicio">
+                    </div>
+                    <div class="form-group">
                         <label class="form-label">Fecha Requerida</label>
                         <input type="date" class="form-control" name="fecha_fin" id="fecha_fin">
                     </div>
