@@ -21,4 +21,6 @@ include ("dao/daousuario.php");
 include ("dao/daocolaborador.php");
 include ("dao/daoestancia.php");
 include ("dao/daodocumentosprograma.php");
+include ("dao/daoplantrabajo.php");
+include ("dao/daoactividadparticipante.php");
 

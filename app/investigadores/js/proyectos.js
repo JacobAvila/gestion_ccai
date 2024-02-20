@@ -27,7 +27,7 @@ async function guardarActividad(id){
           data: res.data
         };
     
-        console.log(result);
+        console.log(res.data);
         document.location.reload();
 
       } catch (err) {

@@ -12,6 +12,14 @@ $daoP = new DAOParticipante();
 $ss = $daoP->listadoPorProyectoPrograma($id_proyecto, "Servicio Social");
 $res = $daoP->listadoPorProyectoPrograma($id_proyecto, "Residencias");
 
+$daoSe = new DAOSemestre();
+$sem = $daoSe->registroEstatus('Activo');
+
+$daoPT = new DAOPlanTrabajo();
+$plan = $daoPT->listado($id_proyecto, $sem->nombre);
+
+$daoAP = new DAOActividadParticipante();
+
 
 ?>
 
@@ -41,32 +49,32 @@ $res = $daoP->listadoPorProyectoPrograma($id_proyecto, "Residencias");
                 <div class="text-start">
                     <h2>Proyecto</h2>
                     <div class="row">
-                        <div class="col-6">
-                            <table class="table">
+                        <div class="col-4">
+                            <table class="table table-bordered">
                                 <tbody>
                                     <tr>
-                                        <td><?php echo $proy->id_proyecto; ?></td>
-                                        <td><?php echo $proy->titulo; ?></td>
-                                        <td><?php echo date_format(new DateTime($proy->fecha_inicio), "d/m/Y"); ?></td>
-                                        <td>Avance</td>
+                                        <td>
+                                            <?php echo $proy->id_proyecto; ?><br>
+                                            <span class="lead"><?php echo $proy->titulo; ?></span>
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="4">
+                                        <td>
                                             <strong>Objetivo</strong><br>
-                                            <?php echo $proy->objetivo; ?>
+                                            <span class="small"><?php echo $proy->objetivo; ?></span>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="3">
+                                        <td>
                                             <strong>Descripción</strong><br>
-                                            <?php echo $proy->descripcion; ?>
+                                            <span class="small"><?php echo $proy->descripcion; ?></span>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="3">
+                                        <td>
                                             <strong>Integrantes</strong><br>
                                             <?php foreach($ss as $s){ ?>
-                                                <div class="row">
+                                                <div class="row small">
                                                     <div class="col-4"><?php echo $s->nombre; ?></div>
                                                     <div class="col-4"><?php echo $s->division; ?></div>
                                                     <div class="col-4"><?php echo $s->programa; ?></div>
@@ -74,7 +82,7 @@ $res = $daoP->listadoPorProyectoPrograma($id_proyecto, "Residencias");
                                             <?php } ?>
                                             <hr/>
                                             <?php foreach($res as $r){ ?>
-                                                <div class="row">
+                                                <div class="row small">
                                                     <div class="col-4"><?php echo $r->nombre; ?></div>
                                                     <div class="col-4"><?php echo $r->division; ?></div>
                                                     <div class="col-4"><?php echo $r->programa; ?></div>
@@ -85,11 +93,11 @@ $res = $daoP->listadoPorProyectoPrograma($id_proyecto, "Residencias");
                                 </tbody>
                             </table>
                         </div>
-                        <div class="col-6">
+                        <div class="col-7">
                             <table class="table">
                                 <thead>
-                                    <tr>
-                                        <th colspan="3">Plan de Trabajo</th>
+                                    <tr class="table-primary">
+                                        <th colspan="4">Plan de Trabajo</th>
                                         <th>
                                             <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#actividadModal">
                                                 <i class="fa fa-plus"></i> Actividad
@@ -99,20 +107,30 @@ $res = $daoP->listadoPorProyectoPrograma($id_proyecto, "Residencias");
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Actividad</td>
-                                        <td>Fecha</td>
-                                        <td>Estatus</td>
-                                        <td>Detalles</td>
+                                        <th>Actividad</th>
+                                        <th class="text-center">Fecha</th>
+                                        <th class="text-center">Asignado</th>
+                                        <th class="text-center">Avance</th>
+                                        <th></th>
                                     </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
+                                    <?php foreach($plan as $pl){ 
+                                        $alum = $pl->asignado;
+                                        if($pl->asignado != "todos"){
+                                            $alum = $daoP->registroPorEstudiante($pl->asignado)->nombre;
+                                        }
+                                    ?>
+                                        <tr>
+                                            <td><?php echo $pl->actividad; ?></td>
+                                            <td class="text-center"><?php echo $pl->fecha_fin; ?></td>
+                                            <td class="text-center small"><?php echo $alum; ?></td>
+                                            <td class="text-center"><?php echo $pl->avance."%"; ?></td>
+                                            <td class="text-end"><i class="fa fa-caret-right fa-lg" id="ico"></i></td>
+                                        </tr>
+                                    <?php } ?>
                                 </tbody>
                             </table>
                         </div>
+                        <div class="col-1"></div>
                     </div>
                 </div>
             </div>
@@ -158,7 +176,7 @@ $res = $daoP->listadoPorProyectoPrograma($id_proyecto, "Residencias");
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" onclick="guardarActividad('<?php $id_proyecto; ?>')">Guardar</button>
+                <button type="button" class="btn btn-primary" onclick="guardarActividad('<?php echo $id_proyecto; ?>')">Guardar</button>
             </div>
             </div>
         </div>

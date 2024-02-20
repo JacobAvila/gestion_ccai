@@ -9,9 +9,11 @@ $fecha_fin = $_REQUEST['fecha_fin'];
 $actividad = $_REQUEST['actividad'];
 $asignado = $_REQUEST['asignado'];
 
+$daoSe = new DAOSemestre();
+$sem = $daoSe->registroEstatus('Activo');
 
 $dao = new DAOPlanTrabajo();
-echo $dao->insertar($id_proyecto, $semestre, $actividad, $fecha_inicio, $fecha_fin, $asignado);
+echo $dao->insertar($id_proyecto, $sem->nombre, $actividad, $fecha_inicio, $fecha_fin, $asignado, 0, "En Proceso");
 
-$daoAP = new DAOActividadParticipante();
+
 
