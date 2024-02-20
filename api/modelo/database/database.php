@@ -1,14 +1,14 @@
 <?php
 
 class Database{
-    private const nombre_bd = "gestion_ccai";
+    private const nombre_bd = "gestionccai";
     private const usuario = "root";
     private const password = "";
     private const url = "localhost";
     private $mysql;
 
     public function __construct(){
-        $this->mysql = new mysqli($this::url, $this::usuario, $this::password, $this::nombre_bd, 3308);
+        $this->mysql = new mysqli($this::url, $this::usuario, $this::password, $this::nombre_bd, 3306);
         if($this->mysql->connect_errno){
             echo "No se pudo conectar con la Base de Datos ".$this->mysql->connect_errno;
             exit();
