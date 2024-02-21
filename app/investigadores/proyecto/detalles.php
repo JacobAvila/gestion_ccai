@@ -183,6 +183,7 @@ $daoAP = new DAOActividadParticipante();
                             <option value="todos">Todos</option>
                             <option value="servicio">Servicio Social</option>
                             <option value="residencias">Residencias</option>
+                            <option value="residencias"><hr></option>
                             <?php foreach($ss as $s){ ?>
                                 <option value="<?php echo $s->id_estudiante; ?>"><?php echo $s->nombre; ?></option>
                             <?php } ?>

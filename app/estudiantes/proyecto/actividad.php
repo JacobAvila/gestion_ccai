@@ -2,6 +2,8 @@
 $home = "../../../";
 include($home."api/lib.php");
 
+$id_actividad = $_REQUEST['id'];
+
 $daoP = new DAOParticipante();
 $proy = $daoP->registroPorEstudiante($user->id_estudiante);
 
@@ -9,6 +11,8 @@ $daoS = new DAOSemestre();
 $sem = $daoS->registroEstatus("Activo");
 
 $daoPT = new DAOPlanTrabajo();
+$actividad = $daoPT->registro($id_actividad, $proy->id_proyecto, $sem->nombre)[0];
+
 $actividadesTodos = $daoPT->listadoPorAsignacion($proy->id_proyecto, $sem->nombre, "todos");
 $tipo = ($user->tipo == "Servicio Social")?"servicio":(($user->tipo == "Residencias")?"residencias":"");
 $actividadesPrograma = [];
@@ -29,6 +33,11 @@ foreach($actividadesPropias as $act){
     $actividades[$act->id_actividad] = $act;
 }
 ksort($actividades);
+
+
+$daoA = new DAOActividadParticipante();
+$misActividades = $daoA->listadoPorActividad($proy->id_proyecto, $id_actividad);
+
 ?>
 
 <!DOCTYPE html>
@@ -81,30 +90,43 @@ ksort($actividades);
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th colspan="5">Plan de Trabajo  <span  class="blockquote-footer small"> Para agregar su actividades dar click en el ícono de signo más</span ></th>
+                                    <th colspan="6">Plan de Trabajo </th>
+                                </tr>
+                                <tr>
+                                    <td colspan="6">
+                                        <select class="form-select" name="actividadTurno" id="actividadTurno" onchange="verActividad(this.options[this.selectedIndex].value)">
+                                            <?php foreach($actividades as $act){ 
+                                                $sel = "";
+                                                if($act->id_actividad === $id_actividad){
+                                                    $sel = "selected";
+                                                }
+                                            ?>
+                                                <option value="<?php echo $act->id_actividad; ?>" <?php echo $sel; ?>><?php echo $act->id_actividad." - ".$act->actividad; ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>No.</th>
                                     <th>Objetivo (Actividad a desarrollar)</th>
                                     <th>Fecha de Inicio</th>
                                     <th>Fecha Finalización</th>
-                                    <th>Avance</th>
-                                    <th></th>
+                                    <th>Estatus</th>
+                                    <th><button type="button" class="btn btn-warning btn-sm">
+                                            <i class="fa fa-plus fa-lg"></i>
+                                        </button>
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach($actividades as $act){ ?>
+                                <?php foreach($misActividades as $act){ ?>
                                     <tr>
                                         <td><?php echo $act->id_actividad; ?></td>
                                         <td><?php echo $act->actividad; ?></td>
                                         <td><?php echo date_format(new DateTime($act->fecha_inicio), "d/m/Y"); ?></td>
                                         <td><?php echo date_format(new DateTime($act->fecha_fin), "d/m/Y"); ?></td>
                                         <td><?php echo $act->avance; ?>%</td>
-                                        <td><button type="button" class="btn btn-warning btn-sm" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top" data-bs-custom-class="custom-tooltip"
-                                            data-bs-content="Para agregar actividades para este objetivo dar click aquí" onclick="verActividad('<?php echo $act->id_actividad; ?>')">
-                                                <i class="fa fa-plus fa-lg"></i>
-                                            </button>
-                                        </td>
+                                        <td></td>
                                     </tr>
                                 <?php } ?>
                             </tbody>

@@ -73,13 +73,14 @@
 				<li><a href="<?php echo $home.'app/estudiantes/actividades'; ?>">Actividades</a></li>
 			</ul>
 		</li>
-		<li class='sub-menu'><a href='#message'>Help<div class='fa fa-caret-down right'></div></a>
+		<!--<li class='sub-menu'><a href='#message'>Help<div class='fa fa-caret-down right'></div></a>
 			<ul>
 				<li><a href='#settings'>FAQ's</a></li>
 				<li><a href='#settings'>Submit a Ticket</a></li>
 				<li><a href='#settings'>Network Status</a></li>
 			</ul>
-		</li>
+		</li>-->
+		<li><hr></li>
 		<li class="align-bottom"><a href="<?php echo $home.'ingreso/logout.php'; ?>"><i class="fa fa-power-off left"></i> Salir</a></li>
 	</ul>
 </div>

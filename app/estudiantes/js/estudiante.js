@@ -292,4 +292,8 @@ function htmlizeResponse(res) {
       JSON.stringify(res, null, 2) +
       "</pre></div>"
     );
-  }
+}
+
+function verActividad(id){
+    document.location.href="actividad.php?id=" + id;
+}
