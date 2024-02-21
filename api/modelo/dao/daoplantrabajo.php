@@ -39,7 +39,13 @@ class DAOPlanTrabajo{
     }
 
     function listado($id_proyecto, $semestre){
-        $q = "SELECT * FROM plan_trabajo WHERE id_proyecto=$id_proyecto and semestre = '$semestre' ";
+        $q = "SELECT * FROM plan_trabajo WHERE id_proyecto=$id_proyecto and semestre = '$semestre' order by id_actividad asc";
+
+        $db = new Database();
+        return $db->seleccionar($q);
+    }
+    function listadoPorAsignacion($id_proyecto, $semestre, $asignacion){
+        $q = "SELECT * FROM plan_trabajo WHERE id_proyecto=$id_proyecto and semestre = '$semestre' and asignado='$asignacion' order by id_actividad asc";
 
         $db = new Database();
         return $db->seleccionar($q);

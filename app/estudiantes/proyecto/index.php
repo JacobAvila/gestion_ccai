@@ -5,6 +5,18 @@ include($home."api/lib.php");
 $daoP = new DAOParticipante();
 $proy = $daoP->registroPorEstudiante($user->id_estudiante);
 
+$daoS = new DAOSemestre();
+$sem = $daoS->registroEstatus("Activo");
+
+$daoPT = new DAOPlanTrabajo();
+$actividadesTodos = $daoPT->listadoPorAsignacion($proy->id_proyecto, $sem->nombre, "todos");
+$tipo = ($user->tipo == "Servicio Social")?"servicio":(($user->tipo == "Residencias")?"residencias":"");
+$actividadesPrograma = [];
+if($tipo != ""){
+    $actividadesPrograma = $daoPT->listadoPorAsignacion($proy->id_proyecto, $sem->nombre, $tipo);
+}
+// Actividades para Mi
+$actividadesPropias = $daoPT->listadoPorAsignacion($proy->id_proyecto, $sem->nombre, $user->id_estudiante);
 ?>
 
 <!DOCTYPE html>
@@ -56,20 +68,40 @@ $proy = $daoP->registroPorEstudiante($user->id_estudiante);
                                 </tr>
                                 <tr>
                                     <th>No.</th>
-                                    <th>Actividad</th>
+                                    <th>Actividad a desarrollar</th>
                                     <th>Fecha de Inicio</th>
                                     <th>Fecha Finalización</th>
-                                    <th><button class="btn btn-warning btn-sm">Agregar</button></th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                <?php foreach($actividadesTodos as $act){ ?>
+                                    <tr>
+                                        <td><?php echo $act->id_actividad; ?></td>
+                                        <td><?php echo $act->actividad; ?></td>
+                                        <td><?php echo $act->fecha_inicio; ?></td>
+                                        <td><?php echo $act->fecha_fin; ?></td>
+                                        <td><button class="btn btn-warning btn-sm">Agregar</button></td>
+                                    </tr>
+                                <?php } ?>
+                                <?php foreach($actividadesPrograma as $act){ ?>
+                                    <tr>
+                                        <td><?php echo $act->id_actividad; ?></td>
+                                        <td><?php echo $act->actividad; ?></td>
+                                        <td><?php echo $act->fecha_inicio; ?></td>
+                                        <td><?php echo $act->fecha_fin; ?></td>
+                                        <td><button class="btn btn-warning btn-sm">Agregar</button></td>
+                                    </tr>
+                                <?php } ?>
+                                <?php foreach($actividadesPropias as $act){ ?>
+                                    <tr>
+                                        <td><?php echo $act->id_actividad; ?></td>
+                                        <td><?php echo $act->actividad; ?></td>
+                                        <td><?php echo $act->fecha_inicio; ?></td>
+                                        <td><?php echo $act->fecha_fin; ?></td>
+                                        <td><button class="btn btn-warning btn-sm">Agregar</button></td>
+                                    </tr>
+                                <?php } ?>
                             </tbody>
                         </table>
                     </div>

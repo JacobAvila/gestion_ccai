@@ -97,7 +97,7 @@ $daoAP = new DAOActividadParticipante();
                             <table class="table">
                                 <thead>
                                     <tr class="table-primary">
-                                        <th colspan="4">Plan de Trabajo</th>
+                                        <th colspan="5">Plan de Trabajo</th>
                                         <th>
                                             <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#actividadModal">
                                                 <i class="fa fa-plus"></i> Actividad
@@ -107,26 +107,43 @@ $daoAP = new DAOActividadParticipante();
                                 </thead>
                                 <tbody>
                                     <tr>
+                                        <th>No</th>
                                         <th>Actividad</th>
                                         <th class="text-center">Fecha</th>
                                         <th class="text-center">Asignado</th>
                                         <th class="text-center">Avance</th>
                                         <th></th>
                                     </tr>
-                                    <?php foreach($plan as $pl){ 
-                                        $alum = $pl->asignado;
-                                        if($pl->asignado != "todos"){
-                                            $alum = $daoP->registroPorEstudiante($pl->asignado)->nombre;
-                                        }
+                                    <?php 
+                                        $count = 1; 
+                                        foreach($plan as $pl){ 
+                                            $alum = $pl->asignado;
+                                            if($pl->asignado != "todos" && $pl->asignado != "servicio" && $pl->asignado != "residencias"){
+                                                $alum = $daoP->registroPorEstudiante($pl->asignado)->nombre;
+                                            }
                                     ?>
                                         <tr>
+                                            <td><?php echo $count; ?></td>
                                             <td><?php echo $pl->actividad; ?></td>
                                             <td class="text-center"><?php echo $pl->fecha_fin; ?></td>
                                             <td class="text-center small"><?php echo $alum; ?></td>
                                             <td class="text-center"><?php echo $pl->avance."%"; ?></td>
-                                            <td class="text-end"><i class="fa fa-caret-right fa-lg" id="ico"></i></td>
+                                            <td class="text-end">
+                                                <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?php echo $pl->id_actividad; ?>" aria-expanded="false" aria-controls="collapse<?php echo $pl->id_actividad; ?>" onclick="mostrarActividad('<?php echo $pl->id_proyecto; ?>', '<?php echo $pl->id_actividad; ?>')">
+                                                    <i class="fa fa-caret-right fa-lg" id="ico<?php echo $pl->id_actividad; ?>"></i>
+                                                </button>
+                                            </td>
                                         </tr>
-                                    <?php } ?>
+                                        <tr>
+                                            <td colspan="6">
+                                                <div class="collapse" id="collapse<?php echo $pl->id_actividad; ?>">
+                                                    <div class="text-start" id="content<?php echo $pl->id_actividad; ?>">
+                                                        
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <?php $count++;} ?>
                                 </tbody>
                             </table>
                         </div>
@@ -164,6 +181,8 @@ $daoAP = new DAOActividadParticipante();
                         <select class="form-select" name="asignado" id="asignado">
                             <option value=""></option>
                             <option value="todos">Todos</option>
+                            <option value="servicio">Servicio Social</option>
+                            <option value="residencias">Residencias</option>
                             <?php foreach($ss as $s){ ?>
                                 <option value="<?php echo $s->id_estudiante; ?>"><?php echo $s->nombre; ?></option>
                             <?php } ?>

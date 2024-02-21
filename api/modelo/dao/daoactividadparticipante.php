@@ -29,6 +29,12 @@ class DAOActividadParticipante{
         $db = new Database();
         return $db->seleccionar($q);
     }
+    function listadoPorActividad($id_proyecto, $id_actividad){
+        $q = "SELECT * FROM actividad_participante WHERE id_proyecto=$id_proyecto and id_actividad= $id_actividad";
+
+        $db = new Database();
+        return $db->seleccionar($q);
+    }
     function registro($id_proyecto, $id_estudiante, $id_actividad, $semestre){
         $q = "SELECT * FROM actividad_participante WHERE id_proyecto=$id_proyecto and id_estudiante= $id_estudiante and id_actividad=$id_actividad and semestre = '$semestre' ";
 

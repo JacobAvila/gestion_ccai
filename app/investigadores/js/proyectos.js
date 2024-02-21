@@ -35,3 +35,22 @@ async function guardarActividad(id){
       }
 
 }
+
+async function mostrarActividad(idp, ida){
+  let ax = axios.create();
+  let contenido = document.getElementById("content" + ida);
+  let ico = document.getElementById("ico" + ida);
+  let res = ico.classList.toggle('fa-caret-right');
+  if(!res){
+    ico.classList.add('fa-caret-down');
+    let url = "actividades.php?idp=" + idp + "&ida=" + ida;
+    try{
+      let datos = await ax.get(url);
+      contenido.innerHTML = datos.data;
+    }
+    catch(error){
+      console.log(error);
+    }
+  }
+
+}
