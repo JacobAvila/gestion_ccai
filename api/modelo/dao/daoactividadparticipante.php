@@ -3,10 +3,12 @@
 class DAOActividadParticipante{
 
     function insertar($id_proyecto, $id_estudiante, $correo_estudiante, $tipo, $id_actividad, $semestre, $fecha_inicio, $fecha_fin, $actividad, $observaciones){
-        $q = "INSERT INTO actividad_participante VALUES($id_proyecto, $id_estudiante, '$correo_estudiante', '$tipo', $id_actividad, '$semestre', '$fecha_inicio', '$fecha_fin', '$actividad', '$observaciones')";
+        $q = "INSERT INTO actividad_participante (id_proyecto, id_estudiante, correo_estudiante, tipo_programa, id_actividad, semestre, fecha_inicio, fecha_fin, actividad, observaciones)"
+            ."VALUES($id_proyecto, $id_estudiante, '$correo_estudiante', '$tipo', $id_actividad, '$semestre', '$fecha_inicio', '$fecha_fin', '$actividad', '$observaciones')";
 
         $db = new Database();
-        return $db->insertar($q);
+        $db->insertar($q);
+        return $q;
     }
     function actualizar($id_proyecto, $id_estudiante, $correo_estudiante, $tipo, $id_actividad, $semestre, $fecha_inicio, $fecha_fin, $actividad, $observaciones){
         $q = "UPDATE actividad_participante SET actividad='$actividad', fecha_inicio='$fecha_inicio', fecha_fin='$fecha_fin', tipo='$tipo', correo_estudiante='$correo_estudiante',  observaciones='$observaciones' "

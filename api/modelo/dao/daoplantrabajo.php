@@ -21,7 +21,8 @@ class DAOPlanTrabajo{
                 ."WHERE id_actividad=$id_actividad and id_proyecto=$id_proyecto and semestre = '$semestre' ";
         
         $db = new Database();
-        return $db->actualziar($q);
+        $db->actualziar($q);
+        return $q;
     }
     function actualizarEstatus($id_actividad, $id_proyecto, $semestre, $estatus){
         $q = "UPDATE plan_trabajo SET estatus='$estatus' "

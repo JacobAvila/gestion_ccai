@@ -297,3 +297,42 @@ function htmlizeResponse(res) {
 function verActividad(id){
     document.location.href="actividad.php?id=" + id;
 }
+
+function porcentaje(){
+    let avance = document.getElementById("avance").value;
+    let valor = document.getElementById("valor");
+    valor.innerHTML = "<strong>" + avance + "%</strong>";
+}
+
+async function agregarActividad(ida, idp, ide, correo, programa, semestre){
+    //alert(ida + " - " + idp + " - " + ide + " - " + correo + " - " + programa + " - " + semestre);
+    let actividad = document.getElementById("actividad").value;
+    let fecha_inicio = document.getElementById("fecha_inicio").value;
+    let fecha_fin = document.getElementById("fecha_fin").value;
+    let avance = document.getElementById("avance").value;
+
+    let ax = axios.create();
+    let url = "guardarActividad.php";
+
+    let formData = new FormData();
+    formData.append("id_actividad", ida);
+    formData.append("id_proyecto", idp);
+    formData.append("id_estudiante", ide);
+    formData.append("correo", correo);
+    formData.append("programa", programa);
+    formData.append("semestre", semestre);
+    formData.append("actividad", actividad);
+    formData.append("fecha_inicio", fecha_inicio);
+    formData.append("fecha_fin", fecha_fin);
+    formData.append("avance", avance);
+
+    try{
+        let res = await ax.post(url, formData);
+        console.log(res.data);
+        document.location.reload();
+    }
+    catch(error){
+        console.log(error);
+    }
+
+}

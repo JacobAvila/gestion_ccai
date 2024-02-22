@@ -8,6 +8,18 @@ $proy = $daoP->registroPorEstudiante($user->id_estudiante);
 $daoS = new DAOSemestre();
 $sem = $daoS->registroEstatus("Activo");
 
+$ss = $daoP->listadoPorProyectoPrograma($proy->id_proyecto, "Servicio Social");
+$res = $daoP->listadoPorProyectoPrograma($proy->id_proyecto, "Residencias");
+
+$equipoR = "";
+foreach($res as $r){
+    $equipoR .= "<br>".$r->nombre;
+}
+$equipoSS = "";
+foreach($ss as $s){
+    $equipoSS .= "<br>".$s->nombre;
+}
+
 $daoPT = new DAOPlanTrabajo();
 $actividadesTodos = $daoPT->listadoPorAsignacion($proy->id_proyecto, $sem->nombre, "todos");
 $tipo = ($user->tipo == "Servicio Social")?"servicio":(($user->tipo == "Residencias")?"residencias":"");
@@ -65,27 +77,41 @@ ksort($actividades);
                         <ul class="list-group">
                             <li class="list-group-item d-flex justify-content-between align-items-start text-start bg-success text-white">
                                 <div class="ms-2 me-auto">
-                                    <div ><?php echo $proy->titulo_esp; ?></div>
+                                    <div ><?php echo $proy->id_proyecto.".- ".$proy->titulo_esp; ?></div>
                                 </div>
                             </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-start">
-                                <div class="ms-2 me-auto">
-                                    <strong>Coordinador:</strong> <?php echo $proy->titulo." ".$proy->nombres." ".$proy->apellido_1." ".$proy->apellido_2; ?>
-                                    <p>
-                                        <span class="mt-5 fw-bold">Objetivo</span>
-                                        <?php echo $proy->objetivo; ?>
-                                    </p>
+                            <li class="list-group-item  justify-content-between align-items-start">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong>Coordinador:</strong> <?php echo $proy->titulo." ".$proy->nombres." ".$proy->apellido_1." ".$proy->apellido_2; ?>
+                                        <p>
+                                            <span class="mt-5 fw-bold">Objetivo:</span>
+                                            <?php echo $proy->objetivo; ?>
+                                        </p>
+                                    </div>
+                                    <div class="col-3">
+                                        <p>
+                                            <span class="mt-5 fw-bold">Residencias:</span>
+                                            <?php echo $equipoR; ?>
+                                        </p>
+                                    </div>
+                                    <div class="col-3">
+                                        <p>
+                                            <span class="mt-5 fw-bold">Servicio Social:</span>
+                                            <?php echo $equipoSS; ?>
+                                        </p>
+                                    </div>
                                 </div>
                             </li>
                         </ul>
-                        <table class="table">
+                        <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th colspan="5">Plan de Trabajo  <span  class="blockquote-footer small"> Para agregar su actividades dar click en el ícono de signo más</span ></th>
+                                    <th colspan="5">Plan de Trabajo  <span  class="blockquote-footer small"> Para agregar sus actividades por cada objetivo dar click en el ícono de signo más</span ></th>
                                 </tr>
                                 <tr>
                                     <th>No.</th>
-                                    <th>Objetivo (Actividad a desarrollar)</th>
+                                    <th>Objetivo</th>
                                     <th>Fecha de Inicio</th>
                                     <th>Fecha Finalización</th>
                                     <th>Avance</th>
@@ -94,7 +120,7 @@ ksort($actividades);
                             </thead>
                             <tbody>
                                 <?php foreach($actividades as $act){ ?>
-                                    <tr>
+                                    <tr style="cursor:pointer;" onclick="verActividad('<?php echo $act->id_actividad; ?>')">
                                         <td><?php echo $act->id_actividad; ?></td>
                                         <td><?php echo $act->actividad; ?></td>
                                         <td><?php echo date_format(new DateTime($act->fecha_inicio), "d/m/Y"); ?></td>

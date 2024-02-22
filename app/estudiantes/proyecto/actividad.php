@@ -38,6 +38,8 @@ ksort($actividades);
 $daoA = new DAOActividadParticipante();
 $misActividades = $daoA->listadoPorActividad($proy->id_proyecto, $id_actividad);
 
+$daoE = new DAOEstudiante();
+
 ?>
 
 <!DOCTYPE html>
@@ -68,16 +70,16 @@ $misActividades = $daoA->listadoPorActividad($proy->id_proyecto, $id_actividad);
         </div>
         <div class="col-10">
             <div class="main">
-                <div class="text-start">
-                    <h2>Proyecto (Plan de Trabajo)</h2>
+                <div class="text-start row">
+                    <h2>Proyecto (Actividades)</h2>
                     <div class="col-11">
                         <ul class="list-group">
                             <li class="list-group-item d-flex justify-content-between align-items-start text-start bg-success text-white">
                                 <div class="ms-2 me-auto">
-                                    <div ><?php echo $proy->titulo_esp; ?></div>
+                                    <div ><?php echo $proy->id_proyecto.".- ".$proy->titulo_esp; ?></div>
                                 </div>
                             </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <li class="list-group-item  justify-content-between align-items-start">
                                 <div class="ms-2 me-auto">
                                     <strong>Coordinador:</strong> <?php echo $proy->titulo." ".$proy->nombres." ".$proy->apellido_1." ".$proy->apellido_2; ?>
                                     <p>
@@ -85,48 +87,98 @@ $misActividades = $daoA->listadoPorActividad($proy->id_proyecto, $id_actividad);
                                         <?php echo $proy->objetivo; ?>
                                     </p>
                                 </div>
+                                <table class="table table-borderless">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="6">Objetivos del Plan de Trabajo </th>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="6">
+                                                <select class="form-select" name="actividadTurno" id="actividadTurno" onchange="verActividad(this.options[this.selectedIndex].value)">
+                                                    <?php 
+                                                        $fecha_i = "";
+                                                        $fecha_f = "";
+                                                        $asignado = "";
+                                                        $avance = 0;
+                                                        foreach($actividades as $act){ 
+                                                            $sel = "";
+                                                            if($act->id_actividad === $id_actividad){
+                                                                $sel = "selected";
+                                                                $fecha_i = date_format(new DateTime($act->fecha_inicio), "d/m/Y");
+                                                                $fecha_f = date_format(new DateTime($act->fecha_fin), "d/m/Y");
+                                                                $asignado = $act->asignado;
+                                                                if($act->asignado != "todos" && $act->asignado != "servicio" && $act->asignado != "residencias"){
+                                                                    $estudiante = $daoE->registro($act->asignado);
+                                                                    $asignado = $estudiante->nombres." ".$estudiante->apellido_1." ".$estudiante->apellido_2;
+                                                                }
+                                                                $avance = $act->avance;
+                                                            }
+                                                    ?>
+                                                        <option value="<?php echo $act->id_actividad; ?>" <?php echo $sel; ?>><?php echo $act->id_actividad." - ".$act->actividad; ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Fecha Inicio</th>
+                                            <th>Fecha Término</th>
+                                            <th>Asignado a</th>
+                                            <th>Avance</th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                        <tr>
+                                            <td><?php echo $fecha_i; ?></td>
+                                            <td><?php echo $fecha_f; ?></td>
+                                            <td><?php echo $asignado; ?></td>
+                                            <td><?php echo $avance; ?></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </thead>
+                                </table>
                             </li>
                         </ul>
+                    </div>
+                </div><br>
+                <div class="text-start row">
+                    <div class="col-11">
                         <table class="table">
                             <thead>
-                                <tr>
-                                    <th colspan="6">Plan de Trabajo </th>
-                                </tr>
-                                <tr>
-                                    <td colspan="6">
-                                        <select class="form-select" name="actividadTurno" id="actividadTurno" onchange="verActividad(this.options[this.selectedIndex].value)">
-                                            <?php foreach($actividades as $act){ 
-                                                $sel = "";
-                                                if($act->id_actividad === $id_actividad){
-                                                    $sel = "selected";
-                                                }
-                                            ?>
-                                                <option value="<?php echo $act->id_actividad; ?>" <?php echo $sel; ?>><?php echo $act->id_actividad." - ".$act->actividad; ?></option>
-                                            <?php } ?>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
+                                <tr class="table-primary">
                                     <th>No.</th>
-                                    <th>Objetivo (Actividad a desarrollar)</th>
+                                    <th>Actividad a desarrollada</th>
                                     <th>Fecha de Inicio</th>
                                     <th>Fecha Finalización</th>
-                                    <th>Estatus</th>
-                                    <th><button type="button" class="btn btn-warning btn-sm">
-                                            <i class="fa fa-plus fa-lg"></i>
+                                    <th>Realizó</th>
+                                    <th class="text-end"><button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#actModal">
+                                            <i class="fa fa-plus fa-sm"></i> Nueva Actividad
                                         </button>
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach($misActividades as $act){ ?>
+                                <?php foreach($misActividades as $act){ 
+                                    $realizo = $daoE->registro($act->id_estudiante);
+                                ?>
                                     <tr>
                                         <td><?php echo $act->id_actividad; ?></td>
                                         <td><?php echo $act->actividad; ?></td>
                                         <td><?php echo date_format(new DateTime($act->fecha_inicio), "d/m/Y"); ?></td>
                                         <td><?php echo date_format(new DateTime($act->fecha_fin), "d/m/Y"); ?></td>
-                                        <td><?php echo $act->avance; ?>%</td>
-                                        <td></td>
+                                        <td><?php echo $realizo->nombres." ".$realizo->apellido_1." ".$realizo->apellido_2; ?></td>
+                                        <td class="text-end">
+                                            <?php if($realizo->id_estudiante == $user->id_estudiante){ ?>
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <button class="btn"><i class="fa fa-edit fa-sm"></i></button>
+                                                </div>
+                                                <div class="col-6">
+                                                <button class="btn"><i class="fa fa-trash fa-sm"></i></button>
+                                                </div>
+                                            </div>
+                                            <?php } ?>
+                                        </td>
                                     </tr>
                                 <?php } ?>
                             </tbody>
@@ -137,29 +189,37 @@ $misActividades = $daoA->listadoPorActividad($proy->id_proyecto, $id_actividad);
         </div>
     </div>
 
-    <!-- Modal Cargar Documento -->
-    <div class="modal fade" id="docModal" tabindex="-1" aria-labelledby="docModalLabel" aria-hidden="true">
+    <!-- Modal Actividad -->
+    <div class="modal fade" id="actModal" tabindex="-1" aria-labelledby="actModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
             <div class="modal-header bg-warning">
-                <h1 class="modal-title fs-5" id="docModalLabel">Documento</h1>
+                <h1 class="modal-title fs-5" id="actModalLabel">Actividad</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <label class="form-label" for="nombre">Nombre del Documento</label>
-                        <input type="text" class="form-control" name="nombre" id="nombre">
+                        <label class="form-label" for="actividad">Descripción de la actividad</label>
+                        <textarea class="form-control" name="actividad" id="actividad" rows="3"></textarea>
                     </div>
                     <div class="form-group">
-                        <label class="form-label" for="documento">Archivo</label>
-                        <input type="file" class="form-control" name="documento" id="documento">
+                        <label class="form-label" for="fecha_inicio">Fecha de Inicio</label>
+                        <input type="date" class="form-control" name="fecha_inicio" id="fecha_inicio">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="fecha_fin">Fecha de Finalización</label>
+                        <input type="date" class="form-control" name="fecha_fin" id="fecha_fin">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="avance">% de avance del objetivo: <span id="valor"><strong>10%</strong></span></label>
+                        <input type="range" class="form-range" min="0" max="100" step="10" value="10" name="avance" id="avance" onchange="porcentaje()">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa fa-mail-reply"></i> Close</button>
-                <button type="button" class="btn btn-primary"><i class="fa fa-save"></i> Agregar</button>
+                <button type="button" class="btn btn-primary" onclick="agregarActividad('<?php echo $id_actividad; ?>', '<?php echo $proy->id_proyecto; ?>', '<?php echo $user->id_estudiante; ?>', '<?php echo $user->correo; ?>', '<?php echo $user->tipo; ?>', '<?php echo $proy->semestre; ?>')"><i class="fa fa-plus"></i> Agregar</button>
             </div>
             </div>
         </div>
