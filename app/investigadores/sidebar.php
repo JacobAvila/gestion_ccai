@@ -55,22 +55,23 @@
 	border-left: 4px solid #3498db;
 }
 </style>
-<script>
-        $('.sub-menu ul').hide();
-        $(".sub-menu a").click(function () {
-            $(this).parent(".sub-menu").children("ul").slideToggle("100");
-            $(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
-        });
- </script>
+
 
 <div class='nav animated bounceInDown bg-dark h-100 d-inline-block' >
 	<ul>
 		<li><a href="<?php echo $home.'app/investigadores'; ?>"><i class="fa fa-home left"></i> Inicio</a></li>
-		<li><a href="<?php echo $home.'app/investigadores/catalogos'; ?>">Catálogos</a></li>
+		<li class='sub-menu'><a href="#">Catálogos <div class='fa fa-caret-down right'></div></a>
+			<ul id="submenu-catalogos">
+				<li><a href="<?php echo $home.'app/semestre'; ?>">Semestre</a></li>
+				<li><a href="<?php echo $home.'estudiantes'; ?>">Aspirantes</a></li>
+				<li><a href="<?php echo $home.'estudiantes'; ?>">Estudiantes</a></li>
+				<li><a href="<?php echo $home.'investigadores'; ?>">Investigadores</a></li>
+				<li><a href="<?php echo $home.'proyectos'; ?>">Proyectos</a></li>
+			</ul>
+		</li>
 		<li class='sub-menu'><a href='#'>Proyecto<div class='fa fa-caret-down right'></div></a>
 			<ul>
-				<li><a href="<?php echo $home.'app/investigadores/proyecto'; ?>">Coordinador</a></li>
-				<li><a href="<?php echo $home.'app/investigadores/proyecto'; ?>">Colaborador</a></li>
+				<li><a href="<?php echo $home.'app/investigadores/proyecto'; ?>">Mis Proyectos</a></li>
 			</ul>
 		</li>
 		<li class='sub-menu'><a href='#message'>Help<div class='fa fa-caret-down right'></div></a>
@@ -83,3 +84,10 @@
 		<li class="align-bottom"><a href="<?php echo $home.'ingreso/logout.php'; ?>"><i class="fa fa-power-off left"></i> Salir</a></li>
 	</ul>
 </div>
+<script>
+        $('.sub-menu ul').hide();
+        $(".sub-menu a").click(function () {
+            $(this).parent(".sub-menu").children("ul").slideToggle("100");
+            $(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+        });
+ </script>

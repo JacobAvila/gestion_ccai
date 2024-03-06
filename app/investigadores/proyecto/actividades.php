@@ -16,7 +16,7 @@ if(count($actividades) > 0){
         $est = $daoE->registroPorEstudiante($act->id_estudiante);
         $html .= "<li class='list-group-item d-flex justify-content-between align-items-start'>"
                     ."<div class='ms-2 me-auto'>"
-                    ."<div class='fw-bold'>".$act->actividad."</div>"
+                    ."<div class='fw-bold'><i>".$act->actividad."</i></div>"
                         ."<span class='small'>".$est->nombre."</span>"
                     ."</div>"
                 ."</li>";

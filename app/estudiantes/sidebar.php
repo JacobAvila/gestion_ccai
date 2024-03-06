@@ -55,13 +55,6 @@
 	border-left: 4px solid #3498db;
 }
 </style>
-<script>
-        $('.sub-menu ul').hide();
-        $(".sub-menu a").click(function () {
-            $(this).parent(".sub-menu").children("ul").slideToggle("100");
-            $(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
-        });
- </script>
 
 <div class='nav animated bounceInDown bg-dark h-100 d-inline-block' >
 	<ul>
@@ -84,3 +77,10 @@
 		<li class="align-bottom"><a href="<?php echo $home.'ingreso/logout.php'; ?>"><i class="fa fa-power-off left"></i> Salir</a></li>
 	</ul>
 </div>
+<script>
+        $('.sub-menu ul').hide();
+        $(".sub-menu a").click(function () {
+            $(this).parent(".sub-menu").children("ul").slideToggle("100");
+            $(this).find(".right").toggleClass("fa-caret-up fa-caret-down");
+        });
+ </script>

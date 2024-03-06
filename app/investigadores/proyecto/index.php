@@ -3,7 +3,15 @@ $home = "../../../";
 include($home."api/lib.php");
 $dao = new DAOProyecto();
 
-$listado = $dao->listadoPorInvestigadorEstatus($user->id_investigador, "Activo");
+$tipo = (isset($_REQUEST['tipo']))?$_REQUEST['tipo']:"";
+
+$listado = [];
+if($tipo == "" || $tipo == "Coordinador"){
+    $listado = $dao->listadoPorInvestigadorEstatus($user->id_investigador, "Activo");
+}else{
+    $listado = $dao->listadoComoColaborador($user->id_investigador);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -14,7 +22,7 @@ $listado = $dao->listadoPorInvestigadorEstatus($user->id_investigador, "Activo")
     <meta name="robots" content="noindex">
     <link href="../../../css/bootstrap.css" type="text/css" rel="stylesheet">
     <link href="../../../css/font-awesome/css/font-awesome.css" type="text/css" rel="stylesheet">
-    <script src="../../../js/jquery.js"></script>
+    <script src="../../../js/jquery-3.7.1.js"></script>
     <script src="../../../js/bootstrap.bundle.js"></script>
     <script src="../../../js/axios.js"></script>
     <script src="../js/proyectos.js"></script>
@@ -31,6 +39,20 @@ $listado = $dao->listadoPorInvestigadorEstatus($user->id_investigador, "Activo")
             <div class="main">
                 <div class="text-start">
                     <h2>Proyectos</h2>
+                    <div class="col-3">
+                        <select class="form-select" name="tipo" id="tipo" onchange="tipoProyecto()">
+                            <?php 
+                                $valores = ['Coordinador', 'Colaborador'];
+                                foreach($valores as $val){
+                                    $sel = "";
+                                    if($val === $tipo){
+                                        $sel = "selected";
+                                    }
+                            ?>
+                            <option value="<?php echo $val; ?>" <?php echo $sel; ?>><?php echo $val; ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
                     <div class="row">
                         <div class="col-1"></div>
                         <div class="col-8">

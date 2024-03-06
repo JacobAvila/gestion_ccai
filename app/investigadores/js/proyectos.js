@@ -1,3 +1,8 @@
+function tipoProyecto(){
+  let tipo = document.getElementById("tipo");
+  document.location.href=".?tipo=" + tipo.value;
+}
+
 function detalles(id){
     document.location.href="detalles.php?id=" + id;
 }

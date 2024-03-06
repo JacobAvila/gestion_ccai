@@ -31,7 +31,7 @@ $daoAP = new DAOActividadParticipante();
     <meta name="robots" content="noindex">
     <link href="../../../css/bootstrap.css" type="text/css" rel="stylesheet">
     <link href="../../../css/font-awesome/css/font-awesome.css" type="text/css" rel="stylesheet">
-    <script src="../../../js/jquery.js"></script>
+    <script src="../../../js/jquery-3.7.1.js"></script>
     <script src="../../../js/bootstrap.bundle.js"></script>
     <script src="../../../js/axios.js"></script>
     <script src="../js/proyectos.js"></script>
@@ -125,7 +125,7 @@ $daoAP = new DAOActividadParticipante();
                                         <tr>
                                             <td><?php echo $count; ?></td>
                                             <td><?php echo $pl->actividad; ?></td>
-                                            <td class="text-center"><?php echo $pl->fecha_fin; ?></td>
+                                            <td class="text-center"><?php echo date_format(new DateTime($pl->fecha_fin), "d/m/Y"); ?></td>
                                             <td class="text-center small"><?php echo $alum; ?></td>
                                             <td class="text-center"><?php echo $pl->avance."%"; ?></td>
                                             <td class="text-end">

@@ -22,7 +22,7 @@
     <link href="../css/bootstrap.css" type="text/css" rel="stylesheet">
     <link href="../css/font-awesome/css/font-awesome.css" type="text/css" rel="stylesheet">
     <script src="../js/axios.js"></script>
-    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery-3.7.1.js"></script>
     <script src="../js/bootstrap.bundle.js"></script>
     <script src="../js/investigador.js"></script>
 </head>
